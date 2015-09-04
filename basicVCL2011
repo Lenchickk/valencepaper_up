@@ -1,0 +1,124 @@
+model
+{
+    for (i in 1:N) {
+        for (p in 1:P) {
+            v[i, p] <- lambda[p] + beta1[region[i]] * (sec[i] - 
+                psec[p])^2 + beta2[region[i]] * (lr[i] - plr[p])^2 + mu[region[i], p]
+            expv[i, p] <- exp(v[i, p]) * phi[region[i], p]
+            pv[i, p] <- expv[i, p]/sum(expv[i, 1:P])
+        }
+        vote[i] ~ dcat(pv[i, 1:P])
+    }
+    lambda[1] ~ dnorm(0.00000E+00, taul)
+    lambda[2] <- 0.00000E+00
+    for (p in 3:P) {
+        lambda[p] ~ dnorm(0.00000E+00, taul)
+    }
+    for (r in 1:R) {
+        beta1[r] ~ dnorm(0.00000E+00, tbeta1)
+    }
+    for (r in 1:R) {
+        beta2[r] ~ dnorm(0.00000E+00, tbeta2)
+    }
+    for (r in 1:R) {
+        for (p in 1:P) {
+            mu[r, p] ~ dnorm(0.00000E+00, taum)
+        }
+    }
+ 
+    for (r in 1:R) {
+        for (p in 1:2) {
+            phi[r, p] <- 1
+        }
+	 }
+   for (r in 1:R) {
+        for (p in 3:4) {
+            phi[r, p] <- 1
+        }
+	}
+	for (r in 1:R {
+        phi[r, 15] <- 1
+		phi[r, 11] <- 1
+    }
+
+    phi[1, 5] <- 1
+	phi[6, 5] <- 1
+    phi[9, 5] <- 1
+	for (r in 2:5) {
+        phi[r, 5] <- 0.00000E+00
+    }
+    for (r in 7:8) {
+        phi[r, 5] <- 0.00000E+00
+    }
+	for (r in 10:R) {
+        phi[r, 5] <- 0.00000E+00
+    }
+	phi[R, 6] <- 1
+	phi[(R-1), 6] <- 1
+
+	for (r in 1:(R-2)) {
+        phi[r, 6] <- 0.00000E+00
+    }
+	phi[(R-1), 7] <- 1
+	phi[R, 7] <- 0.00000E+00
+	for (r in 1:(R-2)) {
+        phi[r, 7] <- 0.00000E+00
+    }		
+	phi[9, 8] <- 1
+	phi[10, 8] <- 1	
+	for (r in 1:8) {
+        phi[r, 8] <- 0.00000E+00
+    }
+	for (r in 11:R) {
+        phi[r, 8] <- 0.00000E+00
+    }
+	phi[9, 9] <- 1
+	phi[12, 9] <- 1
+	for (r in 1:8) {
+        phi[r, 9] <- 0.00000E+00
+    }
+	for (r in 10:11) {
+        phi[r, 9] <- 0.00000E+00
+    }	
+	for (r in 13:R) {
+        phi[r, 9] <- 0.00000E+00
+    }	
+	phi[5, 10] <- 1
+	for (r in 1:4) {
+        phi[r, 10] <- 0.00000E+00
+    }
+	for (r in 6:R) {
+        phi[r, 10] <- 0.00000E+00
+    }
+	phi[3, 12] <- 1
+	phi[10, 12] <- 1
+	phi[(R-2), 12] <- 1
+	for (r in 1:2) {
+        phi[r, 12] <- 0.00000E+00
+    }
+	for (r in 4:9) {
+        phi[r, 12] <- 0.00000E+00
+    }
+	for (r in 11:(R-3)) {
+        phi[r, 12] <- 0.00000E+00
+    }
+	for (r in (R-1):R) {
+        phi[r, 12] <- 0.00000E+00
+    }
+	phi[(R-2), 13] <- 1
+	for (r in 1:(R-3)) {
+        phi[r, 13] <- 0.00000E+00
+    }
+	for (r in (R-1):R) {
+        phi[r, 13] <- 0.00000E+00
+    }
+	phi[2, 14] <- 1
+	phi[1, 14] <- 0.00000E+00
+	for (r in 3:R) {
+        phi[r, 14] <- 0.00000E+00
+    }	
+    taum ~ dgamma(0.1, 0.1)
+    taul ~ dgamma(0.1, 0.1)
+    tbeta1 ~ dgamma(0.1, 0.1)
+    tbeta2 ~ dgamma(0.1, 0.1)
+}
