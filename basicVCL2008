@@ -1,0 +1,93 @@
+model
+{
+    for (i in 1:N) {
+        for (p in 1:P) {
+            v[i, p] <- lambda[p] + beta1[region[i]] * (sec[i] - 
+                psec[p])^2 + beta2[region[i]] * (lr[i] - plr[p])^2 + mu[region[i], p]
+            expv[i, p] <- exp(v[i, p]) * phi[region[i], p]
+            pv[i, p] <- expv[i, p]/sum(expv[i, 1:P])
+        }
+        vote[i] ~ dcat(pv[i, 1:P])
+    }
+    lambda[1] <- 0.00000E+00
+    for (p in 2:P) {
+        lambda[p] ~ dnorm(0.00000E+00, taul)
+    }
+    for (r in 1:R) {
+        beta1[r] ~ dnorm(0.00000E+00, tbeta1)
+    }
+    for (r in 1:R) {
+        beta2[r] ~ dnorm(0.00000E+00, tbeta2)
+    }
+    for (r in 1:R) {
+        for (p in 1:P) {
+            mu[r, p] ~ dnorm(0.00000E+00, taum)
+        }
+    }
+
+    for (r in 1:R) {
+        for (k in 1:4) {
+            phi[r, k] <- 1
+        }
+    }
+
+  
+    phi[9, 5] <- 1
+    phi[10, 5] <- 1
+    for (r in 1:8) {
+        phi[r, 5] <- 0.00000E+00
+    }
+    for (r in 11:16) {
+        phi[r, 5] <- 0.00000E+00
+    }
+    phi[9, 6] <- 1
+    phi[10, 6] <- 1
+    for (r in 1:8) {
+        phi[r, 6] <- 0.00000E+00
+    }
+    for (r in 11:16) {
+        phi[r, 6] <- 0.00000E+00
+    }
+    phi[16, 7] <- 1
+    for (r in 1:15) {
+        phi[r, 7] <- 0.00000E+00
+    }
+    
+    phi[12, 8] <- 1
+    for (r in 1:11) {
+        phi[r, 8] <- 0.00000E+00
+    }
+    for (r in 13:16) {
+        phi[r, 8] <- 0.00000E+00
+    }
+    phi[5, 9] <- 1
+    for (r in 1:4) {
+        phi[r, 9] <- 0.00000E+00
+    }
+    for (r in 6:16) {
+        phi[r, 9] <- 0.00000E+00
+    }
+    phi[16, 10] <- 1
+  
+    for (r in 1:15) {
+        phi[r, 10] <- 0.00000E+00
+    }
+    phi[1, 11] <- 1
+    phi[2, 11] <- 1
+    for (r in 3:16) {
+        phi[r, 11] <- 0.00000E+00
+    }
+    phi[15, 12] <- 1
+    phi[16, 12] <- 1
+    for (r in 1:14) {
+        phi[r, 12] <- 0.00000E+00
+    }
+    
+    for (k in 1:16) {
+        phi[k, 13] <- 1
+    }
+    taum ~ dgamma(0.1, 0.1)
+    taul ~ dgamma(0.1, 0.1)
+    tbeta1 ~ dgamma(0.1, 0.1)
+    tbeta2 ~ dgamma(0.1, 0.1)
+  }

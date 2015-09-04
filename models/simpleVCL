@@ -1,0 +1,37 @@
+model
+{
+    for (i in 1:N) {
+        for (p in 1:P) {
+            v[i, p] <- muu[p] - beta1[region[i]] * (sec[i] - 
+                psec[p])^2 - beta2[region[i]] * (lr[i] - plr[p])^2 + mu[region[i], p]
+            expv[i, p] <- exp(v[i, p]) * phi[region[i], p]
+            pv[i, p] <- expv[i, p]/sum(expv[i, 1:P])
+        }
+        vote[i] ~ dcat(pv[i, 1:P])
+    }
+    
+    muu[1] <- 0.00000E+00
+    
+    for (p in 2:P) {
+        muu[p] ~ dnorm(0.00000E+00, taul)
+    }
+    
+    for (r in 1:R) {
+        for (p in 1:P) {
+            mu[r, p] ~ dnorm(0.00000E+00, taum)
+        }
+    }
+    
+    for (r in 1:R) {
+        beta1[r] ~ dnorm(0.00000E+00, tbeta1)
+    }
+    for (r in 1:R) {
+        beta2[r] ~ dnorm(0.00000E+00, tbeta2)
+    }
+    
+    taum ~ dgamma(0.1, 0.1)
+    taul ~ dgamma(0.1, 0.1)
+    tbeta1 ~ dgamma(0.1, 0.1)
+    tbeta2 ~ dgamma(0.1, 0.1)
+ 
+}

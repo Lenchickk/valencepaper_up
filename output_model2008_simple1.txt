@@ -1,0 +1,9 @@
+[1] "2015-08-30 15:49:26 CDT"
+Compiling model graph
+   Resolving undeclared variables
+   Allocating nodes
+   Graph Size: 644952
+
+Initializing model
+
+  |                                                          |                                                  |   0%  |                                                          |+                                                 |   2%
